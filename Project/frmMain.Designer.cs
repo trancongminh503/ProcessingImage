@@ -76,13 +76,14 @@
 			this.mntsMorphologyErosion = new System.Windows.Forms.ToolStripMenuItem();
 			this.mntsMorphologyDilation = new System.Windows.Forms.ToolStripMenuItem();
 			this.openingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.closingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.boundaryExtractionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.moreToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
 			this.splitContainerImage = new System.Windows.Forms.SplitContainer();
 			this.pbSource = new System.Windows.Forms.PictureBox();
 			this.pbDest = new System.Windows.Forms.PictureBox();
-			this.closingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.boundaryExtractionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.regionFillingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.MenuBar.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainerImage)).BeginInit();
 			this.splitContainerImage.Panel1.SuspendLayout();
@@ -454,7 +455,8 @@
             this.mntsMorphologyDilation,
             this.openingToolStripMenuItem,
             this.closingToolStripMenuItem,
-            this.boundaryExtractionToolStripMenuItem});
+            this.boundaryExtractionToolStripMenuItem,
+            this.regionFillingToolStripMenuItem});
 			this.morphologyToolStripMenuItem.Name = "morphologyToolStripMenuItem";
 			this.morphologyToolStripMenuItem.Size = new System.Drawing.Size(85, 20);
 			this.morphologyToolStripMenuItem.Text = "Morphology";
@@ -479,6 +481,20 @@
 			this.openingToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
 			this.openingToolStripMenuItem.Text = "Opening";
 			this.openingToolStripMenuItem.Click += new System.EventHandler(this.openingToolStripMenuItem_Click);
+			// 
+			// closingToolStripMenuItem
+			// 
+			this.closingToolStripMenuItem.Name = "closingToolStripMenuItem";
+			this.closingToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.closingToolStripMenuItem.Text = "Closing";
+			this.closingToolStripMenuItem.Click += new System.EventHandler(this.closingToolStripMenuItem_Click);
+			// 
+			// boundaryExtractionToolStripMenuItem
+			// 
+			this.boundaryExtractionToolStripMenuItem.Name = "boundaryExtractionToolStripMenuItem";
+			this.boundaryExtractionToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.boundaryExtractionToolStripMenuItem.Text = "Boundary Extraction";
+			this.boundaryExtractionToolStripMenuItem.Click += new System.EventHandler(this.boundaryExtractionToolStripMenuItem_Click);
 			// 
 			// moreToolStripMenuItem
 			// 
@@ -533,19 +549,12 @@
 			this.pbDest.TabIndex = 0;
 			this.pbDest.TabStop = false;
 			// 
-			// closingToolStripMenuItem
+			// regionFillingToolStripMenuItem
 			// 
-			this.closingToolStripMenuItem.Name = "closingToolStripMenuItem";
-			this.closingToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-			this.closingToolStripMenuItem.Text = "Closing";
-			this.closingToolStripMenuItem.Click += new System.EventHandler(this.closingToolStripMenuItem_Click);
-			// 
-			// boundaryExtractionToolStripMenuItem
-			// 
-			this.boundaryExtractionToolStripMenuItem.Name = "boundaryExtractionToolStripMenuItem";
-			this.boundaryExtractionToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-			this.boundaryExtractionToolStripMenuItem.Text = "Boundary Extraction";
-			this.boundaryExtractionToolStripMenuItem.Click += new System.EventHandler(this.boundaryExtractionToolStripMenuItem_Click);
+			this.regionFillingToolStripMenuItem.Name = "regionFillingToolStripMenuItem";
+			this.regionFillingToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.regionFillingToolStripMenuItem.Text = "Region Filling";
+			this.regionFillingToolStripMenuItem.Click += new System.EventHandler(this.regionFillingToolStripMenuItem_Click);
 			// 
 			// frmMain
 			// 
@@ -627,6 +636,7 @@
 		private System.Windows.Forms.ToolStripMenuItem openingToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem closingToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem boundaryExtractionToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem regionFillingToolStripMenuItem;
 	}
 }
 

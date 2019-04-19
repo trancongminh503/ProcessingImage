@@ -100,14 +100,6 @@ namespace Project
 			//int objectColor = CalculateObjectColor(srcImage);
 			return MorphologyReplicate(srcImage, 3, IsHit, objectColor);
 		}
-		public Bitmap MorphologyOpening(Bitmap srcImage, int objectColor)
-		{
-			segmentaion.Thresholding(srcImage);
-			//int objectColor = CalculateObjectColor(srcImage);
-			Bitmap afterErosion = MorphologyErosion(srcImage, objectColor);
-			Bitmap afterOpening = MorphologyDilation(afterErosion, objectColor);
-			return afterOpening;
-		}
 
 		unsafe
 		public Bitmap MorphologyBoundaryExtraction(Bitmap image11, Bitmap image22, int objectColor)

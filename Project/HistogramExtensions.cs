@@ -191,5 +191,46 @@ namespace Project
             image.UnlockBits(bitmapData);
             return sum / (image.Width * image.Height);
         }
-    }
+
+		unsafe
+		public static bool IsEquals(this Bitmap bitmap1, Bitmap bitmap2)
+		{
+			Bitmap srcImage = (Bitmap)bitmap1.Clone();
+			Bitmap desImage = (Bitmap)bitmap2.Clone();
+
+			BitmapData srcBitmapData = srcImage.LockBits(new Rectangle(0, 0, srcImage.Width, srcImage.Height),
+														ImageLockMode.ReadOnly,
+														PixelFormat.Format24bppRgb);
+			BitmapData desBitmapData = desImage.LockBits(new Rectangle(0, 0, desImage.Width, desImage.Height),
+														ImageLockMode.WriteOnly,
+														PixelFormat.Format24bppRgb);
+			int padding = srcBitmapData.Stride - srcBitmapData.Width * 3;
+			byte* pSrc = (byte*)srcBitmapData.Scan0;
+			byte* pDes = (byte*)desBitmapData.Scan0;
+			// Di chuyển con trỏ tới (1, 1)
+			pSrc = pSrc + (srcBitmapData.Stride + 3) * 1;
+			pDes = pDes + (desBitmapData.Stride + 3) * 1;
+			for (int i = 1; i < srcBitmapData.Height - 1; i++)
+			{
+				for (int j = 1; j < srcBitmapData.Width - 1; j++)
+				{
+					if (pSrc[0] != pDes[0])
+					{
+						srcImage.UnlockBits(srcBitmapData);
+						desImage.UnlockBits(desBitmapData);
+						return false;
+					}
+					pDes += 3;
+					pSrc += 3;
+				}
+				pDes += 3 * (3 - 1);
+				pDes += padding;
+				pSrc += 3 * (3 - 1);
+				pSrc += padding;
+			}
+			srcImage.UnlockBits(srcBitmapData);
+			desImage.UnlockBits(desBitmapData);
+			return true;
+		}
+	}
 }

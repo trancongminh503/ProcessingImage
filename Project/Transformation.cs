@@ -7,8 +7,10 @@ namespace Project
     public class Transformation
     {
         unsafe
-        public void Negative(Bitmap image)
+        public Bitmap Negative(Bitmap image1)
         {
+			Bitmap image = (Bitmap)image1.Clone();
+
             BitmapData bitmapData = image.LockBits(new Rectangle(0, 0, image.Width, image.Height),
                                                         ImageLockMode.ReadWrite,
                                                         PixelFormat.Format24bppRgb);
@@ -30,6 +32,8 @@ namespace Project
                 p += padding;
             }
             image.UnlockBits(bitmapData);
+
+			return image;
         }
 
         unsafe
