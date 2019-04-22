@@ -571,10 +571,24 @@ namespace Project
 		}
 		private void regionFillingToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			while (true)
-			{
+			Bitmap binaryImage = (Bitmap)imageGrayScale.Clone();
+			Bitmap X0 = morphology.GenerateX0(imageGrayScale);
+			segmentaion.Thresholding(binaryImage);
+			Bitmap negative = (Bitmap)binaryImage.Clone();
+			negative = transfrom.Negative(negative);
 
-			}
+			Bitmap temp = (Bitmap)X0.Clone();
+			Bitmap X = (Bitmap)X0.Clone();
+
+			do
+			{
+				temp = (Bitmap)X.Clone();
+				X = morphology.MorphologyDilation(temp, 0);
+				X = morphology.Giao(negative, X);
+			} while (X.IsEquals(temp));
+
+
+			pbDest.Image = X;
 		}
 		#endregion
 	}

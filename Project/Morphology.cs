@@ -168,5 +168,101 @@ namespace Project
 
 			return objectColor;
 		}
+
+		unsafe
+		public Bitmap GenerateX0(Bitmap image)
+		{
+			segmentaion.Thresholding(image);
+			Bitmap bitmap = (Bitmap)image.Clone();
+
+			BitmapData srcBitmapData = image.LockBits(new Rectangle(0, 0, image.Width, image.Height),
+														ImageLockMode.ReadWrite,
+														PixelFormat.Format24bppRgb);
+			BitmapData desBitmapData = bitmap.LockBits(new Rectangle(0, 0, bitmap.Width, bitmap.Height),
+														ImageLockMode.ReadWrite,
+														PixelFormat.Format24bppRgb);
+			int padding = srcBitmapData.Stride - srcBitmapData.Width * 3;
+			byte* pSrc = (byte*)srcBitmapData.Scan0;
+			byte* pDes = (byte*)desBitmapData.Scan0;
+
+			for (int i = 1; i < srcBitmapData.Height - 1; i++)
+			{
+				for (int j = 1; j < srcBitmapData.Width - 1; j++)
+				{
+					int[,] matrix = GetMatrixAroundPixel(srcBitmapData, j, i, 3);
+					int newValue = 0;
+					if (matrix[0, 1] == 255 && 
+						matrix[1, 0] == 255 && 
+						matrix[1, 1] == 0 && 
+						matrix[1, 2] == 0 && 
+						matrix[2,1]==0)
+						newValue = 255;
+
+					pDes[0] = (byte)newValue;
+					pDes[1] = (byte)newValue;
+					pDes[2] = (byte)newValue;
+					pDes += 3;
+					pSrc += 3;
+				}
+				pDes += 3 * (3 - 1);
+				pDes += padding;
+				pSrc += 3 * (3 - 1);
+				pSrc += padding;
+			}
+			image.UnlockBits(srcBitmapData);
+			bitmap.UnlockBits(desBitmapData);
+
+			return bitmap;
+		}
+
+		unsafe
+		public Bitmap Giao(Bitmap bitmap1, Bitmap bitmap2)
+		{
+			int temp = 3 / 2;
+			Bitmap des = (Bitmap)bitmap1.Clone();
+
+			BitmapData srcBitmapData1 = bitmap1.LockBits(new Rectangle(0, 0, bitmap1.Width, bitmap1.Height),
+														ImageLockMode.ReadOnly,
+														PixelFormat.Format24bppRgb);
+			BitmapData srcBitmapData2 = bitmap2.LockBits(new Rectangle(0, 0, bitmap2.Width, bitmap2.Height),
+														ImageLockMode.ReadOnly,
+														PixelFormat.Format24bppRgb);
+			BitmapData desBitmapData = des.LockBits(new Rectangle(0, 0, bitmap2.Width, bitmap2.Height),
+														ImageLockMode.WriteOnly,
+														PixelFormat.Format24bppRgb);
+			int padding = srcBitmapData1.Stride - srcBitmapData1.Width * 3;
+			byte* pSrc1 = (byte*)srcBitmapData1.Scan0;
+			byte* pSrc2 = (byte*)srcBitmapData2.Scan0;
+			byte* pDes = (byte*)desBitmapData.Scan0;
+			// Di chuyển con trỏ tới (1, 1)
+			pSrc1 = pSrc1 + (srcBitmapData1.Stride + 3) * temp;
+			pSrc2 = pSrc2 + (desBitmapData.Stride + 3) * temp;
+			pDes = pDes + (desBitmapData.Stride + 3) * temp;
+			for (int i = temp; i < srcBitmapData1.Height - temp; i++)
+			{
+				for (int j = temp; j < srcBitmapData1.Width - temp; j++)
+				{
+					int newValue = pSrc1[0] + pSrc2[0];
+
+					if (newValue > 255) newValue = 255;
+					if (newValue < 0) newValue = 0;
+
+					pDes[0] = (byte)newValue;
+					pDes[1] = (byte)newValue;
+					pDes[2] = (byte)newValue;
+					pDes += 3;
+					pSrc2 += 3;
+					pSrc1 += 3;
+				}
+				pDes += 3 * (3 - 1);
+				pDes += padding;
+				pSrc1 += 3 * (3 - 1);
+				pSrc2 += padding;
+			}
+			bitmap1.UnlockBits(srcBitmapData1);
+			bitmap2.UnlockBits(srcBitmapData2);
+			des.UnlockBits(desBitmapData);
+			return des;
+		}
 	}
 }
