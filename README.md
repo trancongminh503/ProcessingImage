@@ -1,4 +1,4 @@
-Phần mềm Xử lý ảnh đen trắng cơ bản
+Phần mềm Xử lý ảnh đen trắng cơ bản<br>
 Các chức năng chính:
   1. Chuyển ảnh màu về trắng đen
   2. Vẽ biểu đồ histogram
